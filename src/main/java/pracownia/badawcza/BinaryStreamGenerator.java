@@ -2,6 +2,8 @@ package pracownia.badawcza;
 
 
 import org.apache.commons.io.FileUtils;
+import pracownia.badawcza.model.BinaryStreamDTO;
+import pracownia.badawcza.model.GlobalDAO;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,12 +13,12 @@ import java.util.List;
 
 public class BinaryStreamGenerator {
 
-	private final Long onesCount;
+	private final int onesCount;
 	private final Boolean randomMode;
-	private final Long length;
+	private final int length;
 	private final String outputFilename;
 
-	public BinaryStreamGenerator(Long onesCount, Boolean randomMode, Long length, String outputFilename) {
+	public BinaryStreamGenerator(int onesCount, Boolean randomMode, int length, String outputFilename) {
 		this.onesCount = onesCount;
 		this.randomMode = randomMode;
 		this.length = length;
@@ -31,6 +33,11 @@ public class BinaryStreamGenerator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void generateToDB() {
+		GlobalDAO globalDAO = new GlobalDAO();
+		globalDAO.addBinaryStream(new BinaryStreamDTO(outputFilename, onesCount, length, randomMode ? 1 : 0, getStream()));
 	}
 
 	private String getStream() {

@@ -1,12 +1,6 @@
 package pracownia.badawcza;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 
 public class Main {
 
@@ -36,15 +30,15 @@ public class Main {
         String onesCount = cmd.getOptionValue("density");
         Boolean randomMode = cmd.hasOption("randomly");
         String streamLength = cmd.getOptionValue("length");
-        long onesCountL = Long.parseLong(onesCount, 10);
-        long streamLengthL = Long.parseLong(streamLength, 10);
+        int onesCountL = Integer.parseInt(onesCount, 10);
+        int streamLengthL = Integer.parseInt(streamLength, 10);
 
         System.out.println(String.format("Generating stream: %d elements, randomMode: %s, number of ones: %d",
                 streamLengthL, randomMode, onesCountL));
 
         long start = System.currentTimeMillis();
         BinaryStreamGenerator generator = new BinaryStreamGenerator(onesCountL, randomMode, streamLengthL, "output");
-        generator.generate();
+        generator.generateToDB();
         long end = System.currentTimeMillis();
 
         System.out.println(String.format("Finished. Time: %d ms", end - start));
