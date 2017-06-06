@@ -27,19 +27,22 @@ public class GlobalDAO {
         databaseConnector.closeConnection();
     }
 
-    public BinaryStreamDTO getBinaryStream() {
+    public BinaryStreamDTO getBinaryStream(int id) {
         Statement statement = databaseConnector.getStatement();
         BinaryStreamDTO binaryStreamDTO = null;
         try {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM BINARYSTREAM");
-            binaryStreamDTO = new BinaryStreamDTO(
-                    resultSet.getString(1),
-                    resultSet.getInt(2),
-                    resultSet.getInt(3),
-                    resultSet.getInt(4),
-                    resultSet.getString(5)
-            );
-            binaryStreamDTO.setId(resultSet.getInt(0));
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM histogram.BINARYSTREAM WHERE ID = id");
+            if (resultSet.next()) {
+
+                binaryStreamDTO = new BinaryStreamDTO(
+                        resultSet.getString(2),
+                        resultSet.getInt(3),
+                        resultSet.getInt(4),
+                        resultSet.getInt(5),
+                        resultSet.getString(6)
+                );
+                binaryStreamDTO.setId(resultSet.getInt(1));
+            }
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
