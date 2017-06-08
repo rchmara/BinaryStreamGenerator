@@ -4,6 +4,7 @@ package pracownia.badawcza;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -14,19 +15,24 @@ public class DatabaseConnector {
 
     private MysqlDataSource mysqlDataSource;
     private Statement statement;
+    private PreparedStatement preparedStatement;
     private Connection connection;
 
     public DatabaseConnector() {
     }
 
-    public Statement getStatement() {
+    private void initDataSource() {
         if (mysqlDataSource == null) {
             mysqlDataSource = new MysqlDataSource();
             mysqlDataSource.setUser("root");
             mysqlDataSource.setPassword("postgres");
             mysqlDataSource.setServerName("localhost");
-            mysqlDataSource.setPort(3307);
+            mysqlDataSource.setPort(3306);
         }
+    }
+
+    public Statement getStatement() {
+        initDataSource();
 
         try {
             connection = mysqlDataSource.getConnection();
@@ -37,9 +43,28 @@ public class DatabaseConnector {
         return statement;
     }
 
+    public PreparedStatement getPreparedStatement(String sql) {
+        initDataSource();
+
+        try {
+            connection = mysqlDataSource.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return preparedStatement;
+    }
+
+
     public void closeConnection() {
         try {
-            statement.close();
+            if(statement != null) {
+                statement.close();
+            }
+            if(preparedStatement != null) {
+                preparedStatement.close();
+            }
+
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();

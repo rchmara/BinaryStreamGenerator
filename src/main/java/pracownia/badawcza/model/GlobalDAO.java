@@ -2,9 +2,11 @@ package pracownia.badawcza.model;
 
 import pracownia.badawcza.DatabaseConnector;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  * Created by tomas on 21.05.2017.
@@ -55,7 +57,7 @@ public class GlobalDAO {
         Statement statement = databaseConnector.getStatement();
         ErrorDTO errorDTO = null;
         try {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM ERROR");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM histogram.ERROR");
             errorDTO = new ErrorDTO(
                     resultSet.getInt(1),
                     resultSet.getInt(2),
@@ -82,13 +84,32 @@ public class GlobalDAO {
         );
     }
 
+
+
     public void addError(ErrorDTO errorDTO) {
-        runUpdateQuery(String.format("INSERT INTO ERROR (STEP, STREAMID, ORIGINALCOUNT, HISTOGRAMCOUNT) VALUES (%d, %d, %d, %d)",
+        runUpdateQuery(String.format("INSERT INTO histogram.ERROR (STEP, STREAMID, ORGINALCOUNT, HISTOGRAMCOUNT) VALUES (%d, %d, %d, %d)",
                 errorDTO.getStep(),
                 errorDTO.getStreamId(),
                 errorDTO.getOriginalCount(),
                 errorDTO.getHistogramCount()
                 )
         );
+    }
+
+    public void addErrors(List<ErrorDTO> errors) {
+        String query = "INSERT INTO histogram.ERROR (STEP, STREAMID, ORGINALCOUNT, HISTOGRAMCOUNT) VALUES (?, ?, ?, ?)";
+        PreparedStatement ps = databaseConnector.getPreparedStatement(query);
+        try {
+            for (ErrorDTO error : errors) {
+                ps.setInt(1, error.getStep());
+                ps.setInt(2, error.getStreamId());
+                ps.setInt(3, error.getOriginalCount());
+                ps.setInt(4, error.getHistogramCount());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

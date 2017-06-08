@@ -1,6 +1,12 @@
 package pracownia.badawcza;
 
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 public class Main {
 
@@ -37,7 +43,8 @@ public class Main {
                 streamLengthL, randomMode, onesCountL));
 
         long start = System.currentTimeMillis();
-        BinaryStreamGenerator generator = new BinaryStreamGenerator(onesCountL, randomMode, streamLengthL, "output");
+        BinaryStreamGenerator generator = new BinaryStreamGenerator(onesCountL, randomMode, streamLengthL,
+                "randomly L = 100k D = 50k");
         generator.generateToDB();
         long end = System.currentTimeMillis();
 

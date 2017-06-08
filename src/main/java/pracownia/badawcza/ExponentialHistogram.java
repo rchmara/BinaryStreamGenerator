@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class ExponentialHistogram {
 
-    private int N = 75;    // window size
+    public static final int WINDOW_SIZE = 75;    // window size
     private double epsilon = 0.5;
     private double k = Math.ceil(1 / epsilon);
     private double kDividedByTwo = Math.ceil(k / 2);
@@ -16,7 +16,7 @@ public class ExponentialHistogram {
     private int total;  // total size of buckets
     private ArrayList<Bucket> buckets;
     private long arrivalTime = 1;
-    private long expiryTime = 1 - N;
+    private long expiryTime = 1 - WINDOW_SIZE;
 
     public ExponentialHistogram() {
         buckets = new ArrayList<Bucket>();
@@ -118,5 +118,9 @@ public class ExponentialHistogram {
                 ", total=" + total +
                 ", buckets=" + buckets +
                 '}';
+    }
+
+    public int getTotal() {
+        return total;
     }
 }
