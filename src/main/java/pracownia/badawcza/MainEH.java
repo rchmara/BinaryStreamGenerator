@@ -16,7 +16,7 @@ public class MainEH {
 //        int[] input = new BinaryStreamReader("output").readAsIntArray();
 
         GlobalDAO globalDAO = new GlobalDAO();
-        int streamId = 3;
+        int streamId = 10;// 1 3 5 10 12 14
         BinaryStreamDTO binaryStreamDTO = globalDAO.getBinaryStream(streamId);
         String[] splittedStream = binaryStreamDTO.getStream().split("");
         int[] r4 = Stream.of(splittedStream).mapToInt(Integer::parseInt).toArray();
@@ -34,14 +34,16 @@ public class MainEH {
             slidingWindow.add(value);
             int histogramTotal = histogram.getTotal();
             int windowTotal = slidingWindow.getTotal();
-            errors.add(new ErrorDTO(step++, streamId, windowTotal, histogramTotal));
-            //if (step > 5000) break;
+            ErrorDTO error = new ErrorDTO(step++, streamId, windowTotal, histogramTotal);
+            error.setLastBucketSize(histogram.getLastBucketSize());
+            errors.add(error);
+            if (step > 20000) break;
         }
 
         ChartGenerator chartGenerator = new ChartGenerator();
-        chartGenerator.createDataset(errors);
+        chartGenerator.createDataset(errors, binaryStreamDTO.getName());
         chartGenerator.showGraph();
-        chartGenerator.saveToFile("ErrorsChart.jpg");
+        //chartGenerator.saveToFile("ErrorsChart.jpg");
 
         System.out.println(String.format("Generating histogram finished. Time: %d ms", System.currentTimeMillis() - start));
         System.out.println("Saving errors to database...");
