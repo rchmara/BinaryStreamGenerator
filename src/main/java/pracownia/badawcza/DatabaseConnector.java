@@ -27,7 +27,7 @@ public class DatabaseConnector {
             mysqlDataSource.setUser("root");
             mysqlDataSource.setPassword("postgres");
             mysqlDataSource.setServerName("localhost");
-            mysqlDataSource.setPort(3306);
+            mysqlDataSource.setPort(3307);
         }
     }
 
