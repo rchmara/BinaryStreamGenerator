@@ -127,4 +127,8 @@ public class ExponentialHistogram {
     public int getLastBucketSize() {
         return last;
     }
+
+    public int getEstimate() {
+        return total - last;
+    }
 }

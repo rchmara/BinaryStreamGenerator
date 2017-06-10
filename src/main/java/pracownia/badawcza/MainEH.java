@@ -35,7 +35,7 @@ public class MainEH {
             int histogramTotal = histogram.getTotal();
             int windowTotal = slidingWindow.getTotal();
             ErrorDTO error = new ErrorDTO(step++, streamId, windowTotal, histogramTotal);
-            error.setLastBucketSize(histogram.getLastBucketSize());
+            error.setEstimate(histogram.getEstimate());
             errors.add(error);
             if (step > 20000) break;
         }

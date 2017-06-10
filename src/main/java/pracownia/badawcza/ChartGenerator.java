@@ -63,7 +63,7 @@ public class ChartGenerator {
 
         for (ErrorDTO error : errors) {
             errorsChart.add(error.getStep(), Math.abs(error.getHistogramCount() - error.getOriginalCount()));
-            lastBucketSizeSeries.add(error.getStep(), error.getLastBucketSize()/2);
+            lastBucketSizeSeries.add(error.getStep(), error.getEstimate()/2);
         }
 
         dataset.addSeries(errorsChart);
