@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class ExponentialHistogram {
 
-    public static final int WINDOW_SIZE = 75;    // window size
+    public static final int WINDOW_SIZE = 20;    // window size
     private double epsilon = 0.5;
     private double k = Math.ceil(1 / epsilon);
     private double kDividedByTwo = Math.ceil(k / 2);
@@ -15,8 +15,8 @@ public class ExponentialHistogram {
     private int last = 1;   // size of the last bucket
     private int total;  // total size of buckets
     private ArrayList<Bucket> buckets;
-    private long arrivalTime = 1;
-    private long expiryTime = 1 - WINDOW_SIZE;
+    private long arrivalTime = 0;
+    private long expiryTime = 0 - WINDOW_SIZE;
 
     public ExponentialHistogram() {
         buckets = new ArrayList<Bucket>();
@@ -55,7 +55,7 @@ public class ExponentialHistogram {
         // traverse the list of buckets in order of increasing sizes
         int onesLimit = (int) k + 2;
 
-        if (buckets.size() >= onesLimit) {
+        if (buckets.stream().filter(p -> p.getSize() == 1).count() >= onesLimit) {
             int otherLimit = (int) (k / 2) + 2;
 
             int limit = onesLimit;

@@ -16,7 +16,7 @@ public class MainEH {
 //        int[] input = new BinaryStreamReader("output").readAsIntArray();
 
         GlobalDAO globalDAO = new GlobalDAO();
-        int streamId = 10;// 1 3 5 10 12 14
+        int streamId = 3;// 1 3 5 10 12 14
         BinaryStreamDTO binaryStreamDTO = globalDAO.getBinaryStream(streamId);
         String[] splittedStream = binaryStreamDTO.getStream().split("");
         int[] r4 = Stream.of(splittedStream).mapToInt(Integer::parseInt).toArray();

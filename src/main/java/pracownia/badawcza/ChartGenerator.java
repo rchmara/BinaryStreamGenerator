@@ -53,6 +53,7 @@ public class ChartGenerator {
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
         renderer.setSeriesShape(0, new Ellipse2D.Double(-1, -1, 2, 2));
         renderer.setSeriesLinesVisible(0, false);
+        renderer.setSeriesLinesVisible(1, false);
         plot.setRenderer(renderer);
         return chart;
     }
