@@ -37,7 +37,7 @@ public class ExponentialHistogram {
             if (lastBucket.isExpired(expiryTime)) {
                 buckets.remove(lastBucket);
                 // Update the counter LAST - containing size of the last bucket
-                last = buckets.get(buckets.size() - 1).getSize();
+                last = buckets.isEmpty() ? 0 : buckets.get(buckets.size() - 1).getSize();
                 // Update TOTAL - size of all buckets
                 total -= lastBucket.getSize();
             }
@@ -56,7 +56,7 @@ public class ExponentialHistogram {
         int onesLimit = (int) k + 2;
 
         if (buckets.size() >= onesLimit) {
-            int otherLimit = (int) k / 2 + 2;
+            int otherLimit = (int) (k / 2) + 2;
 
             int limit = onesLimit;
 
@@ -122,5 +122,9 @@ public class ExponentialHistogram {
 
     public int getTotal() {
         return total;
+    }
+
+    public int getLastBucketSize() {
+        return last;
     }
 }

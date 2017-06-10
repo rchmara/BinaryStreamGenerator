@@ -57,13 +57,17 @@ public class ChartGenerator {
         return chart;
     }
 
-    public void createDataset(List<ErrorDTO> errors) {
-        final XYSeries errorsChart = new XYSeries("seria danych");
+    public void createDataset(List<ErrorDTO> errors, String streamName) {
+        final XYSeries errorsChart = new XYSeries(streamName);
+        final XYSeries lastBucketSizeSeries = new XYSeries("Wielkość ostatniego kubełka / 2 (max błąd)");
 
         for (ErrorDTO error : errors) {
-            errorsChart.add(error.getStep(), error.getHistogramCount() - error.getOriginalCount());
+            errorsChart.add(error.getStep(), Math.abs(error.getHistogramCount() - error.getOriginalCount()));
+            lastBucketSizeSeries.add(error.getStep(), error.getLastBucketSize()/2);
         }
+
         dataset.addSeries(errorsChart);
+        dataset.addSeries(lastBucketSizeSeries);
     }
 
     public void saveToFile(String fileName) {

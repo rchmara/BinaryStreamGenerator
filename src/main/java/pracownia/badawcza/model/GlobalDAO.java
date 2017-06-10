@@ -33,7 +33,7 @@ public class GlobalDAO {
         Statement statement = databaseConnector.getStatement();
         BinaryStreamDTO binaryStreamDTO = null;
         try {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM histogram.BINARYSTREAM WHERE ID = id");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM histogram.BINARYSTREAM b WHERE b.ID =" + id);
             if (resultSet.next()) {
 
                 binaryStreamDTO = new BinaryStreamDTO(
