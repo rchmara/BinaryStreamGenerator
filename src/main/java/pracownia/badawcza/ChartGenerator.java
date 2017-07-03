@@ -43,7 +43,7 @@ public class ChartGenerator {
 
     private JFreeChart createChart() {
         chart = ChartFactory.createScatterPlot(
-                "Zmmiana wielkości błędu w poszczególnych iteracjach",
+                "Zmiana wielkości błędu w poszczególnych iteracjach",
                 "Krok",
                 "Wielkość błędu (algorytm - oryginał)",
                 dataset,
@@ -64,7 +64,7 @@ public class ChartGenerator {
 
         for (ErrorDTO error : errors) {
             errorsChart.add(error.getStep(), Math.abs(error.getHistogramCount() - error.getOriginalCount()));
-            lastBucketSizeSeries.add(error.getStep(), error.getEstimate()/2);
+            lastBucketSizeSeries.add(error.getStep(), error.getLastBucketSize());
         }
 
         dataset.addSeries(errorsChart);

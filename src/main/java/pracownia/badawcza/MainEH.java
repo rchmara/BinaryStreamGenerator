@@ -16,7 +16,7 @@ public class MainEH {
 //        int[] input = new BinaryStreamReader("output").readAsIntArray();
 
         GlobalDAO globalDAO = new GlobalDAO();
-        int streamId = 3;// 1 3 5 10 12 14
+        int streamId = 14;// 1 3 5 10 12 14
         BinaryStreamDTO binaryStreamDTO = globalDAO.getBinaryStream(streamId);
         String[] splittedStream = binaryStreamDTO.getStream().split("");
         int[] r4 = Stream.of(splittedStream).mapToInt(Integer::parseInt).toArray();
@@ -32,10 +32,10 @@ public class MainEH {
         for (int value : r4) {
             histogram.add(value);
             slidingWindow.add(value);
-            int histogramTotal = histogram.getTotal();
+            int histogramTotal = histogram.getEstimate();
             int windowTotal = slidingWindow.getTotal();
             ErrorDTO error = new ErrorDTO(step++, streamId, windowTotal, histogramTotal);
-            error.setEstimate(histogram.getEstimate());
+            error.setLastBucketSize(histogram.getLastBucketSize());
             errors.add(error);
             if (step > 20000) break;
         }

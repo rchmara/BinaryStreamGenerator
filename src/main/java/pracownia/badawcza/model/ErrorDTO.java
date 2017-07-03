@@ -9,7 +9,7 @@ public class ErrorDTO {
     private final int streamId;
     private final int originalCount;
     private final int histogramCount;
-    private int estimate;
+    private int lastBucketSize;
 
     public ErrorDTO(int step, int streamId, int originalCount, int histogramCount) {
         this.step = step;
@@ -42,11 +42,11 @@ public class ErrorDTO {
         return histogramCount;
     }
 
-    public int getEstimate() {
-        return estimate;
+    public int getLastBucketSize() {
+        return lastBucketSize;
     }
 
-    public void setEstimate(int estimate) {
-        this.estimate = estimate;
+    public void setLastBucketSize(int lastBucketSize) {
+        this.lastBucketSize = lastBucketSize;
     }
 }

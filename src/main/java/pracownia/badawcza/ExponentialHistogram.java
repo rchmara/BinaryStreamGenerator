@@ -129,6 +129,6 @@ public class ExponentialHistogram {
     }
 
     public int getEstimate() {
-        return total - last;
+        return total - (last/2);
     }
 }
